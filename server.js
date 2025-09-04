@@ -7,7 +7,19 @@ require("dotenv").config();
 
 const app = express();
 app.use(express.json());
-app.use(cors());
+
+// ✅ Allow both local React and deployed React frontend
+const corsOptions = {
+  origin: [
+    "http://localhost:3000",      // local React
+    "https://student-login.vercel.app" // replace with your real deployed frontend URL
+  ],
+  methods: ["GET", "POST"],
+  credentials: true,
+};
+
+app.use(cors(corsOptions));
+
 
 // ✅ MongoDB Connection
 mongoose.connect(process.env.MONGO_URI, {
